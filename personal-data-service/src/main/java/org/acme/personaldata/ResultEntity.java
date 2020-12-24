@@ -2,13 +2,15 @@ package org.acme.personaldata;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 
 import javax.persistence.*;
 
 @Entity
+@RegisterForReflection
 public class ResultEntity extends PanacheEntity {
 
-    @ManyToOne(targetEntity = ApplicationEntity.class, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = ApplicationEntity.class, fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "application_id", nullable = false)
     @JsonIgnore
     public ApplicationEntity application;

@@ -13,12 +13,11 @@ import java.util.UUID;
 
 @Path("/applications")
 @Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 @Transactional
 public class ApplicationResource {
 
     @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
     public ApplicationEntity createApplication(CreateApplicationDTO applicationDTO)
     {
         ApplicationEntity applicationEntity = applicationDTO.createEntity();
@@ -28,8 +27,6 @@ public class ApplicationResource {
 
     @PUT
     @Path("{applicationId : [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}}")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
     public ApplicationEntity updateApplication(@PathParam("applicationId") UUID applicationId, @Valid UpdateApplicationDTO dto)
     {
         ApplicationEntity applicationEntity = ApplicationEntity.findById(applicationId);
@@ -43,14 +40,11 @@ public class ApplicationResource {
 
     @POST
     @Path("{applicationId : [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}}/results")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
     public ResultEntity createResult(@Valid CreateResultDTO resultDTO, @PathParam("applicationId") UUID applicationId)
     {
         ApplicationEntity application = ApplicationEntity.findById(applicationId);
         ResultEntity resultEntity = resultDTO.createEntity(application);
 
-//        resultEntity.persist();
         application.persistAndFlush();
 
         return resultEntity;
@@ -58,8 +52,6 @@ public class ApplicationResource {
 
     @PUT
     @Path("{applicationId : [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}}/results/{resultId: \\d+}")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
     public ResultEntity updateResult(@PathParam("applicationId") UUID applicationId, @PathParam("resultId") Long resultId, UpdateResultDTO dto)
     {
         ResultEntity resultEntity = ResultEntity.findById(resultId);
@@ -73,7 +65,6 @@ public class ApplicationResource {
 
     @GET
     @Path("{applicationId : [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}}")
-    @Produces(MediaType.APPLICATION_JSON)
     public ApplicationEntity getApplication(@PathParam("applicationId") UUID applicationId)
     {
         return ApplicationEntity.findById(applicationId);

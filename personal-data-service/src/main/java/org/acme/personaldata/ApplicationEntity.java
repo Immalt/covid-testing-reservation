@@ -1,15 +1,16 @@
 package org.acme.personaldata;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import org.hibernate.id.UUIDGenerator;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Entity
+@RegisterForReflection
 public class ApplicationEntity extends PanacheEntityBase {
     @Id
     @GeneratedValue(generator= UUIDGenerator.GENERATOR_NAME)

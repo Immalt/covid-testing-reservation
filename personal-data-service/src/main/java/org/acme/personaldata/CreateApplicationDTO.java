@@ -1,10 +1,13 @@
 package org.acme.personaldata;
 
+import io.quarkus.runtime.annotations.RegisterForReflection;
+
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@RegisterForReflection
 public class CreateApplicationDTO {
     @NotNull
     public String firstName;

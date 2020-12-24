@@ -1,7 +1,10 @@
 package org.acme.personaldata;
 
+import io.quarkus.runtime.annotations.RegisterForReflection;
+
 import javax.validation.constraints.NotNull;
 
+@RegisterForReflection
 public class CreateResultDTO {
     @NotNull
     public ResultValuesEnum result;
