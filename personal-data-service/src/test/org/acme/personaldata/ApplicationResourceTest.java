@@ -8,13 +8,23 @@ import io.quarkus.test.common.QuarkusTestResource;
 import io.quarkus.test.h2.H2DatabaseTestResource;
 import io.restassured.http.ContentType;
 import io.vertx.core.json.JsonObject;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 import io.quarkus.test.junit.QuarkusTest;
 
+import javax.transaction.Transactional;
+
 @QuarkusTest
+@Transactional
 @QuarkusTestResource(H2DatabaseTestResource.class)
 public class ApplicationResourceTest {
+    @AfterEach
+    public void clean()
+    {
+        ApplicationEntity.deleteAll();
+    }
 
     @Test
     public void testListAllApplicationsEmpty() {
@@ -99,7 +109,7 @@ public class ApplicationResourceTest {
         jsonApplication.put("lastName", "Jerry");
         jsonApplication.put("medicalInsurance", "HealthInstitute");
 
-        String applicatinId = given().contentType(ContentType.JSON)
+        String applicationId = given().contentType(ContentType.JSON)
                 .body(jsonApplication.toString())
                 .when().post("/applications")
                 .then()
@@ -117,7 +127,7 @@ public class ApplicationResourceTest {
 
         Integer resultId1 = given().contentType(ContentType.JSON)
                 .body(resultApplication1.toString())
-                .when().post("/applications/" + applicatinId + "/results")
+                .when().post("/applications/" + applicationId + "/results")
                 .then()
                 .statusCode(200)
                 .body("result", equalTo("NEGATIVE"))
@@ -126,7 +136,7 @@ public class ApplicationResourceTest {
                 ;
 
         given().contentType(ContentType.JSON)
-                .when().get("/applications/" + applicatinId + "/results/" + resultId1)
+                .when().get("/applications/" + applicationId + "/results/" + resultId1)
                 .then().statusCode(200)
                 .assertThat()
                 .body("result", equalTo("NEGATIVE"))
@@ -139,7 +149,7 @@ public class ApplicationResourceTest {
 
         Integer resultId2 = given().contentType(ContentType.JSON)
                 .body(resultApplication2.toString())
-                .when().post("/applications/" + applicatinId + "/results")
+                .when().post("/applications/" + applicationId + "/results")
                 .then()
                 .statusCode(200)
                 .body("result", equalTo("POSITIVE"))
@@ -147,7 +157,7 @@ public class ApplicationResourceTest {
                 .contentType(ContentType.JSON).extract().path("id");
 
         given().contentType(ContentType.JSON)
-                .when().get("/applications/" + applicatinId + "/results/" + resultId2)
+                .when().get("/applications/" + applicationId + "/results/" + resultId2)
                 .then().statusCode(200)
                 .assertThat()
                 .body("result", equalTo("POSITIVE"))
@@ -155,45 +165,45 @@ public class ApplicationResourceTest {
                 .body("id", equalTo(resultId2));
 
         given().contentType(ContentType.JSON)
-                .when().get("/applications/" + applicatinId + "/results")
+                .when().get("/applications/" + applicationId + "/results")
                 .then().statusCode(200)
                 .assertThat()
                 .body("size()", is(2));
 
 
         given().contentType(ContentType.JSON)
-                .when().delete("/applications/" + applicatinId + "/results/" + resultId1)
+                .when().delete("/applications/" + applicationId + "/results/" + resultId1)
                 .then()
                 .statusCode(200);
 
         given().contentType(ContentType.JSON)
-                .when().get("/applications/" + applicatinId + "/results")
+                .when().get("/applications/" + applicationId + "/results")
                 .then().statusCode(200)
                 .assertThat()
                 .body("size()", is(1));
 
         given().contentType(ContentType.JSON)
-                .when().get("/applications/" + applicatinId + "/results/" + resultId1)
+                .when().get("/applications/" + applicationId + "/results/" + resultId1)
                 .then()
                 .statusCode(204);
 
         given().contentType(ContentType.JSON)
-                .when().get("/applications/" + applicatinId + "/results/" + resultId2)
+                .when().get("/applications/" + applicationId + "/results/" + resultId2)
                 .then()
                 .statusCode(200);
 
         given().contentType(ContentType.JSON)
-                .when().delete("/applications/" + applicatinId)
+                .when().delete("/applications/" + applicationId)
                 .then()
                 .statusCode(200);
 
         given().contentType(ContentType.JSON)
-                .when().get("/applications/" + applicatinId)
+                .when().get("/applications/" + applicationId)
                 .then()
                 .statusCode(204);
 
         given().contentType(ContentType.JSON)
-                .when().get("/applications/" + applicatinId + "/results/" + resultId2)
+                .when().get("/applications/" + applicationId + "/results/" + resultId2)
                 .then()
                 .statusCode(204);
     }

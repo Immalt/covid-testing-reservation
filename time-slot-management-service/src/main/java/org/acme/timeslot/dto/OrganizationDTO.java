@@ -1,7 +1,7 @@
-package org.acme.personaldata.dto;
+package org.acme.timeslot.dto;
 
 import io.quarkus.runtime.annotations.RegisterForReflection;
-import org.acme.personaldata.entity.Organization;
+import org.acme.timeslot.entity.Organization;
 
 import javax.validation.constraints.NotNull;
 

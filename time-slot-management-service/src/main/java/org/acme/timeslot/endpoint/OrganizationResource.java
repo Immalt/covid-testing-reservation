@@ -1,7 +1,9 @@
-package org.acme.personaldata.endpoint;
+package org.acme.timeslot.endpoint;
 
-import org.acme.personaldata.dto.OrganizationDTO;
-import org.acme.personaldata.entity.Organization;
+import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
+import io.quarkus.hibernate.orm.panache.PanacheQuery;
+import org.acme.timeslot.dto.OrganizationDTO;
+import org.acme.timeslot.entity.Organization;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
 import org.jboss.resteasy.annotations.jaxrs.QueryParam;
 
@@ -59,6 +61,10 @@ public class OrganizationResource {
     public Boolean removeOrganization(@PathParam("organizationId") Long organizationId)
     {
 
-        return Organization.deleteById(organizationId);
+        Organization organization = Organization.findById(organizationId);
+        boolean deleted = Organization.deleteById(organizationId);
+
+        organization.flush();
+        return deleted;
     }
 }

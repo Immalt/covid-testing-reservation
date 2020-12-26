@@ -1,4 +1,4 @@
-package org.acme.personaldata.entity;
+package org.acme.timeslot.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;

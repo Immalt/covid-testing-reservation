@@ -1,4 +1,4 @@
-package org.acme.personaldata.exception;
+package org.acme.timeslot.exception;
 
 public class CannotCreateReservation extends Exception {
     public CannotCreateReservation() {

@@ -1,8 +1,8 @@
-package org.acme.personaldata.endpoint;
+package org.acme.timeslot.endpoint;
 
-import org.acme.personaldata.dto.WorkingDayDTO;
-import org.acme.personaldata.entity.Organization;
-import org.acme.personaldata.entity.WorkingDay;
+import org.acme.timeslot.dto.WorkingDayDTO;
+import org.acme.timeslot.entity.Organization;
+import org.acme.timeslot.entity.WorkingDay;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
 import org.jboss.resteasy.annotations.jaxrs.QueryParam;
 

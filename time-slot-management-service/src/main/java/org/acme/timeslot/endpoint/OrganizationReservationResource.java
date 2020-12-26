@@ -1,10 +1,11 @@
-package org.acme.personaldata.endpoint;
+package org.acme.timeslot.endpoint;
 
-import org.acme.personaldata.dto.ReservationDTO;
-import org.acme.personaldata.entity.Organization;
-import org.acme.personaldata.entity.Reservation;
-import org.acme.personaldata.exception.CannotListReservation;
-import org.acme.personaldata.service.ReservationService;
+import org.acme.timeslot.dto.ReservationDTO;
+import org.acme.timeslot.entity.Organization;
+import org.acme.timeslot.entity.Reservation;
+import org.acme.timeslot.exception.CannotCreateReservation;
+import org.acme.timeslot.exception.CannotListReservation;
+import org.acme.timeslot.service.ReservationService;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
 import org.jboss.resteasy.annotations.jaxrs.QueryParam;
 
@@ -14,6 +15,8 @@ import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -21,17 +24,17 @@ import java.util.List;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @Transactional
-public class ReservationResource {
+public class OrganizationReservationResource {
     @Inject
     ReservationService reservationService;
 
     @POST
-    public Reservation createReservation(@PathParam("organizationId") Long organizationId, ReservationDTO applicationDTO)
-    {
+    public Reservation createReservation(@PathParam("organizationId") Long organizationId, ReservationDTO applicationDTO) throws CannotCreateReservation {
         Organization organization = Organization.findById(organizationId);
         if (organization == null) return null;
 
         Reservation reservation = applicationDTO.createEntity(organization);
+        reservationService.validateTerm(reservation);
         reservation.persistAndFlush();
         return reservation;
     }
@@ -47,10 +50,12 @@ public class ReservationResource {
         if (organization == null) return null;
 
         if (from != null && till != null) {
-            return reservationService.getFreeTermsForOrganization(organization, new Timestamp(from).toLocalDateTime().toLocalDate(), new Timestamp(till).toLocalDateTime().toLocalDate());
+            reservationService.getFreeTermsForOrganization(organization, new Timestamp(from).toLocalDateTime().toLocalDate(), new Timestamp(till).toLocalDateTime().toLocalDate());
+        } else if (from == null && till == null) {
+            return reservationService.getFreeTermsForOrganization(organization, LocalDate.now(), LocalDate.now());
         }
 
-        return organization.reservations;
+        return null;
     }
 
     @GET

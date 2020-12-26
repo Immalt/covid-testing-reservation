@@ -1,9 +1,9 @@
-package org.acme.personaldata.enums;
+package org.acme.timeslot.enums;
 
 import io.quarkus.runtime.annotations.RegisterForReflection;
 
 @RegisterForReflection
-public enum Unit {
+public enum TimeUnit {
     MINUTES {
         @Override
         public Integer toSeconds() {

@@ -1,9 +1,9 @@
-package org.acme.personaldata.dto;
+package org.acme.timeslot.dto;
 
 import io.quarkus.runtime.annotations.RegisterForReflection;
-import org.acme.personaldata.entity.Organization;
-import org.acme.personaldata.entity.WorkingDay;
-import org.acme.personaldata.enums.Unit;
+import org.acme.timeslot.entity.Organization;
+import org.acme.timeslot.entity.WorkingDay;
+import org.acme.timeslot.enums.TimeUnit;
 
 import javax.validation.constraints.NotNull;
 import java.time.DayOfWeek;
@@ -14,13 +14,13 @@ public class WorkingDayDTO {
     @NotNull
     public Integer testInterval;
     @NotNull
-    public Unit unit;
+    public TimeUnit timeUnit;
     @NotNull
     public DayOfWeek day;
     @NotNull
-    public LocalTime from;
+    public LocalTime workingFrom;
     @NotNull
-    public LocalTime till;
+    public LocalTime workingTill;
 
     public WorkingDay createEntity(Organization organization)
     {
@@ -33,9 +33,9 @@ public class WorkingDayDTO {
     public void updateEntity(WorkingDay workingDay)
     {
         workingDay.testInterval = testInterval;
-        workingDay.timeUnit = unit;
-        workingDay.workingDay = day;
-        workingDay.workingFrom = from;
-        workingDay.workingTill = till;
+        workingDay.timeUnit = timeUnit;
+        workingDay.day = day;
+        workingDay.workingFrom = workingFrom;
+        workingDay.workingTill = workingTill;
     }
 }

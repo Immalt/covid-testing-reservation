@@ -1,4 +1,4 @@
-package org.acme.personaldata.entity;
+package org.acme.timeslot.entity;
 
 import com.fasterxml.jackson.annotation.*;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
@@ -12,6 +12,11 @@ import java.util.UUID;
 
 @Entity
 @RegisterForReflection
+@Table(
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"organization_id", "term"})
+        }
+)
 public class Reservation extends PanacheEntity {
     @ManyToOne(targetEntity = Organization.class, optional = false)
     @JoinColumn(name = "organization_id", referencedColumnName = "id", nullable = false)
@@ -19,7 +24,6 @@ public class Reservation extends PanacheEntity {
     public Organization organization;
 
     @Column(name = "application_id", nullable = false)
-    @JsonIgnore
     public UUID applicationId;
 
     @Column(name = "term", nullable = false)
@@ -30,7 +34,7 @@ public class Reservation extends PanacheEntity {
     public LocalDateTime createdOn;
 
 
-    @Column(name = "last_update", nullable = false)
+    @Column(name = "last_update", nullable = true)
     @JsonIgnore
     public LocalDateTime lastUpdate;
 
