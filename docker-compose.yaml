@@ -1,0 +1,108 @@
+version: "3.6"
+
+services:
+  personal-data:
+    image: covid/personal-data
+    depends_on:
+      - postgres-personal-data
+    build:
+      dockerfile: src/main/docker/Dockerfile.native
+      context: personal-data-service
+    ports:
+    - 1000:8080
+    environment:
+      - QUARKUS_DATASOURCE_JDBC_URL=jdbc:postgresql://postgres-personal-data:5432/mydb
+      - QUARKUS_DATASOURCE_USERNAME=postgre_user
+      - QUARKUS_DATASOURCE_PASSWORD=pass123
+      - QUARKUS_DATASOURCE_JDBC_DRIVER=io.opentracing.contrib.jdbc.TracingDriver
+      - QUARKUS_HIBERNATE_ORM_DIALECT=org.hibernate.dialect.PostgreSQLDialect
+      - QUARKUS_HIBERNATE_ORM_DATABASE_GENERATION=drop-and-create
+      - QUARKUS_LOG_CONSOLE_ENABLE=true
+      - QUARKUS_LOG_CONSOLE_level=DEBUG
+      - QUARKUS_LOG_CONSOLE_color=false
+      - QUARKUS_LOG_CONSOLE_FORMAT="%d{HH:mm:ss} %-5p traceId=%X{traceId}, parentId=%X{parentId}, spanId=%X{spanId}, sampled=%X{sampled} [%c{2.}] (%t) %s%e%n"
+      - QUARKUS_JAEGER_ENDPOINT=http://jaeger:14268/api/traces
+      - QUARKUS_JAEGER_SERVICE_NAME=personal-data
+      - QUARKUS_JAEGER_SAMPLER_TYPE=const
+      - QUARKUS_JAEGER_SAMPLER_PARAM=1
+      - QUARKUS_JAEGER_METRICS_ENABLED=true
+      - QUARKUS_JAEGER_LOG_TRACE_CONTEXT=true
+      - QUARKUS_JAEGER_REPORTER_LOG_SPANS=true
+      - QUARKUS_JAEGER_PROPAGATION=jaeger
+#      - QUARKUS_HTTP_CORS=false
+
+  time-slots:
+    image: covid/time-slots
+    depends_on:
+      - postgres-timeslots
+    build:
+      dockerfile: src/main/docker/Dockerfile.native
+      context: time-slot-management-service
+    ports:
+      - 1001:8080
+    environment:
+      - QUARKUS_DATASOURCE_JDBC_URL=jdbc:postgresql://postgres-timeslots:5432/mydb
+      - QUARKUS_DATASOURCE_USERNAME=postgre_user
+      - QUARKUS_DATASOURCE_PASSWORD=pass123
+      - QUARKUS_DATASOURCE_JDBC_DRIVER=io.opentracing.contrib.jdbc.TracingDriver
+      - QUARKUS_HIBERNATE_ORM_DIALECT=org.hibernate.dialect.PostgreSQLDialect
+      - QUARKUS_HIBERNATE_ORM_DATABASE_GENERATION=drop-and-create
+      - QUARKUS_LOG_CONSOLE_ENABLE=true
+      - QUARKUS_LOG_CONSOLE_level=DEBUG
+      - QUARKUS_LOG_CONSOLE_color=false
+      - QUARKUS_LOG_CONSOLE_FORMAT="%d{HH:mm:ss} %-5p traceId=%X{traceId}, parentId=%X{parentId}, spanId=%X{spanId}, sampled=%X{sampled} [%c{2.}] (%t) %s%e%n"
+      - QUARKUS_JAEGER_ENDPOINT=http://jaeger:14268/api/traces
+      - QUARKUS_JAEGER_SERVICE_NAME=time-slots-1
+      - QUARKUS_JAEGER_SAMPLER_TYPE=const
+      - QUARKUS_JAEGER_SAMPLER_PARAM=1
+      - QUARKUS_JAEGER_METRICS_ENABLED=true
+      - QUARKUS_JAEGER_LOG_TRACE_CONTEXT=true
+      - QUARKUS_JAEGER_REPORTER_LOG_SPANS=true
+      - QUARKUS_JAEGER_PROPAGATION=jaeger
+#      - QUARKUS_HTTP_CORS=false
+
+
+  postgres-timeslots:
+    image: postgres
+    environment:
+      - POSTGRES_PASSWORD=pass123
+      - POSTGRES_USER=postgre_user
+      - POSTGRES_DB=mydb
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      timeout: 20s
+      retries: 10
+
+  postgres-personal-data:
+    image: postgres
+    environment:
+      - POSTGRES_PASSWORD=pass123
+      - POSTGRES_USER=postgre_user
+      - POSTGRES_DB=mydb
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      timeout: 20s
+      retries: 10
+
+  prometheus:
+    image: prom/prometheus:v2.14.0
+    container_name: prometheus
+    command: "--config.file=/etc/prometheus/prometheus.yml"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:Z
+
+  grafana:
+    image: grafana/grafana:6.4.4
+    ports:
+    - 3000:3000
+
+  jaeger:
+    image: jaegertracing/all-in-one:1.21.0
+    container_name: jaeger
+    ports:
+      - "5775:5775/udp"
+      - "6831:6831/udp"
+      - "6832:6832/udp"
+      - "5778:5778"
+      - "16686:16686"
+      - "14268:14268"

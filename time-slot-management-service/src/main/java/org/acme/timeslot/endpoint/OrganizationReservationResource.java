@@ -6,6 +6,7 @@ import org.acme.timeslot.entity.Reservation;
 import org.acme.timeslot.exception.CannotCreateReservation;
 import org.acme.timeslot.exception.CannotListReservation;
 import org.acme.timeslot.service.ReservationService;
+import org.eclipse.microprofile.opentracing.Traced;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
 import org.jboss.resteasy.annotations.jaxrs.QueryParam;
 
@@ -24,6 +25,7 @@ import java.util.List;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @Transactional
+@Traced
 public class OrganizationReservationResource {
     @Inject
     ReservationService reservationService;

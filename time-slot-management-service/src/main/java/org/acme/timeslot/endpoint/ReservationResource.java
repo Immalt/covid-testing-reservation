@@ -5,6 +5,7 @@ import org.acme.timeslot.entity.Organization;
 import org.acme.timeslot.entity.Reservation;
 import org.acme.timeslot.exception.CannotListReservation;
 import org.acme.timeslot.service.ReservationService;
+import org.eclipse.microprofile.opentracing.Traced;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
 import org.jboss.resteasy.annotations.jaxrs.QueryParam;
 
@@ -22,9 +23,9 @@ import java.util.UUID;
 @Path("/reservation")
 @Consumes(MediaType.APPLICATION_JSON)
 @Transactional
+@Traced
 public class ReservationResource {
     @GET
-//    @Path("{applicationId : [0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}}")
     @Produces(MediaType.APPLICATION_JSON)
     public Reservation getReservationByApplicationId(@NotNull @QueryParam("applicationId") UUID applicationId) {
         List<Reservation> reservations = Reservation.find("applicationId", applicationId).list();

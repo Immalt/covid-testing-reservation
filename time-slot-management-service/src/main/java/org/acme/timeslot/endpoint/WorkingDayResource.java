@@ -3,6 +3,7 @@ package org.acme.timeslot.endpoint;
 import org.acme.timeslot.dto.WorkingDayDTO;
 import org.acme.timeslot.entity.Organization;
 import org.acme.timeslot.entity.WorkingDay;
+import org.eclipse.microprofile.opentracing.Traced;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
 import org.jboss.resteasy.annotations.jaxrs.QueryParam;
 
@@ -17,6 +18,7 @@ import java.util.List;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @Transactional
+@Traced
 public class WorkingDayResource {
     @POST
     public WorkingDay createWorkingDay(@PathParam("organizationId") Long organizationId, WorkingDayDTO applicationDTO)

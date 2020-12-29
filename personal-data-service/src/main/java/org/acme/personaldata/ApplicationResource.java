@@ -1,5 +1,8 @@
 package org.acme.personaldata;
 
+import org.eclipse.microprofile.metrics.MetricUnits;
+import org.eclipse.microprofile.metrics.annotation.Timed;
+import org.eclipse.microprofile.opentracing.Traced;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
 import org.jboss.resteasy.annotations.jaxrs.QueryParam;
 
@@ -15,6 +18,8 @@ import java.util.UUID;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @Transactional
+@Timed(name = "ApplicationTimer", description = "A measure of each request.", unit = MetricUnits.MILLISECONDS)
+@Traced
 public class ApplicationResource {
 
     @POST
