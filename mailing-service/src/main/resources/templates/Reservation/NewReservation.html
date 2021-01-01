@@ -1,0 +1,14 @@
+{@org.acme.mailing.DTO.NewReservation data}
+<html lang="eng">
+
+<body>
+
+<p>Hello {data.firstName} {data.lastName}</p>
+
+<p>Your reservation at {data.term.format('YYYY:mm:dd HH:MM:ss')} has been created. In case you can't make it you can cancel the reservation by clicking on this <a href="{data.cancellationLink}/{data.applicationId}">link</a>.</p>
+
+<p>Your id: {data.IDCardNumber}</p>
+
+<p>Have a great day!</p>
+</body>
+</html>

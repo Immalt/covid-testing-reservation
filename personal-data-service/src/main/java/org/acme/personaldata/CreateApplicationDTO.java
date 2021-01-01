@@ -2,6 +2,7 @@ package org.acme.personaldata;
 
 import io.quarkus.runtime.annotations.RegisterForReflection;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,10 @@ public class CreateApplicationDTO {
     @NotNull
     public String medicalInsurance;
 
+    @NotNull
+    @Email
+    public String email;
+
     public List<CreateResultDTO> results = new ArrayList<>();
 
     public ApplicationEntity createEntity()
@@ -27,6 +32,7 @@ public class CreateApplicationDTO {
         entity.lastName = lastName;
         entity.idCardNumber = idCardNumber;
         entity.medicalInsurance = medicalInsurance;
+        entity.email = email;
         entity.results = results.stream()
                 .map(resultDTO -> resultDTO.createEntity(entity))
                 .collect(Collectors.toList());

@@ -3,12 +3,14 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.example</groupId>
-    <artifactId>personal-data</artifactId>
+    <artifactId>reservation-management</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <name>Covid reservation center</name>
+    <packaging>pom</packaging>
+    <name>PV217 Covid testing reservation system</name>
 
     <modules>
         <module>personal-data-service</module>
         <module>time-slot-management-service</module>
+        <module>mailing-service</module>
     </modules>
 </project>

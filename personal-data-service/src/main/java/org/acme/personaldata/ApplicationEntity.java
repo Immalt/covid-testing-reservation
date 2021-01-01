@@ -29,6 +29,9 @@ public class ApplicationEntity extends PanacheEntityBase {
     @Column(nullable = false, name = "medial_insurance")
     public String medicalInsurance;
 
+    @Column(nullable = false, name = "email")
+    public String email;
+
     @OneToMany(mappedBy = "application", targetEntity = ResultEntity.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     public List<ResultEntity> results = new ArrayList<>();
 

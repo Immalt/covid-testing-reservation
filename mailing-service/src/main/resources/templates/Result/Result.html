@@ -1,0 +1,14 @@
+{@org.acme.mailing.DTO.Result data}
+<html lang="eng">
+
+<body>
+
+<p>Hello {data.firstName} {data.lastName}</p>
+
+<p>Your test ({data.testType}) result from {data.term.format('YYYY:mm:dd HH:MM:ss')} is {data.testResult}.</p>
+
+{#if data.testResult.toString() == "POSITIVE"}
+<p>Stay isolated and call your doctor for more information.</p>
+{/if}
+</body>
+</html>
