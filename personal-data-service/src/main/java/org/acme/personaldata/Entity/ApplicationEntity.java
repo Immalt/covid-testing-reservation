@@ -1,4 +1,4 @@
-package org.acme.personaldata;
+package org.acme.personaldata.Entity;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import io.quarkus.runtime.annotations.RegisterForReflection;

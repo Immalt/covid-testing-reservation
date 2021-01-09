@@ -5,9 +5,13 @@ import io.quarkus.test.h2.H2DatabaseTestResource;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.http.ContentType;
 import io.restassured.response.ValidatableResponse;
+import io.smallrye.reactive.messaging.connectors.InMemoryConnector;
 import io.vertx.core.json.JsonObject;
 import org.acme.timeslot.entity.Organization;
+import org.acme.timeslot.entity.Reservation;
+import org.acme.timeslot.entity.WorkingDay;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import javax.transaction.Transactional;
@@ -21,8 +25,11 @@ import static org.hamcrest.CoreMatchers.is;
 @QuarkusTestResource(H2DatabaseTestResource.class)
 public class OrganizationTest {
     @AfterEach
+    @BeforeEach
     public void cleanAll()
     {
+        Reservation.deleteAll();
+        WorkingDay.deleteAll();
         Organization.deleteAll();
     }
 

@@ -1,4 +1,4 @@
-package org.acme.personaldata;
+package org.acme.personaldata.Enum;
 
 public enum ResultValuesEnum {
     POSITIVE,

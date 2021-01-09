@@ -7,14 +7,17 @@ import io.restassured.http.ContentType;
 import io.restassured.response.ValidatableResponse;
 import io.vertx.core.json.JsonObject;
 import org.acme.timeslot.entity.Organization;
+import org.acme.timeslot.entity.Reservation;
 import org.acme.timeslot.entity.WorkingDay;
 import org.acme.timeslot.enums.TimeUnit;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import javax.transaction.Transactional;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -25,8 +28,12 @@ import static org.hamcrest.CoreMatchers.is;
 @QuarkusTestResource(H2DatabaseTestResource.class)
 public class WorkingDaysTest {
     @AfterEach
+    @BeforeEach
     public void cleanAll()
     {
+
+        Reservation.deleteAll();
+        WorkingDay.deleteAll();
         Organization.deleteAll();
     }
 
@@ -35,8 +42,8 @@ public class WorkingDaysTest {
         json.put("testInterval", day.testInterval);
         json.put("timeUnit", day.timeUnit);
         json.put("day", day.day);
-        json.put("workingFrom", day.workingFrom.toString());
-        json.put("workingTill", day.workingTill.toString());
+        json.put("workingTill", day.workingTill.format(DateTimeFormatter.ofPattern("HH:mm:ss")));
+        json.put("workingFrom", day.workingFrom.format(DateTimeFormatter.ofPattern("HH:mm:ss")));
 
         Integer id = given().contentType(ContentType.JSON)
                 .body(json.toString())
@@ -46,8 +53,8 @@ public class WorkingDaysTest {
                 .body("testInterval", equalTo(day.testInterval))
                 .body("timeUnit", equalTo(day.timeUnit.toString()))
                 .body("day", equalTo(day.day.toString()))
-                .body("workingTill", equalTo(day.workingTill.toString()))
-                .body("workingFrom", equalTo(day.workingFrom.toString()))
+                .body("workingTill", equalTo(day.workingTill.format(DateTimeFormatter.ofPattern("HH:mm:ss"))))
+                .body("workingFrom", equalTo(day.workingFrom.format(DateTimeFormatter.ofPattern("HH:mm:ss"))))
                 .contentType(ContentType.JSON).extract().path("id");
         day.id = Long.valueOf(id);
     }
@@ -76,8 +83,8 @@ public class WorkingDaysTest {
         json.put("testInterval", day.testInterval);
         json.put("timeUnit", day.timeUnit);
         json.put("day", day.day);
-        json.put("workingFrom", day.workingFrom.toString());
-        json.put("workingTill", day.workingTill.toString());
+        json.put("workingTill", day.workingTill.format(DateTimeFormatter.ofPattern("HH:mm:ss")));
+        json.put("workingFrom", day.workingFrom.format(DateTimeFormatter.ofPattern("HH:mm:ss")));
 
         ValidatableResponse response = given().contentType(ContentType.JSON)
                 .body(json.toString())
@@ -89,8 +96,8 @@ public class WorkingDaysTest {
                     .body("testInterval", equalTo(day.testInterval))
                     .body("timeUnit", equalTo(day.timeUnit.toString()))
                     .body("day", equalTo(day.day.toString()))
-                    .body("workingTill", equalTo(day.workingTill.toString()))
-                    .body("workingFrom", equalTo(day.workingFrom.toString()));
+                    .body("workingTill", equalTo(day.workingTill.format(DateTimeFormatter.ofPattern("HH:mm:ss"))))
+                    .body("workingFrom", equalTo(day.workingFrom.format(DateTimeFormatter.ofPattern("HH:mm:ss"))));
     }
 
     @Test

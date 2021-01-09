@@ -1,11 +1,18 @@
-package org.acme.personaldata;
+package org.acme.personaldata.EndPoint;
 
+import org.acme.personaldata.DTO.CreateApplicationDTO;
+import org.acme.personaldata.DTO.CreateResultDTO;
+import org.acme.personaldata.DTO.UpdateApplicationDTO;
+import org.acme.personaldata.DTO.UpdateResultDTO;
+import org.acme.personaldata.Entity.*;
+import org.acme.personaldata.Service.ReceivedResult;
 import org.eclipse.microprofile.metrics.MetricUnits;
 import org.eclipse.microprofile.metrics.annotation.Timed;
 import org.eclipse.microprofile.opentracing.Traced;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
 import org.jboss.resteasy.annotations.jaxrs.QueryParam;
 
+import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import javax.ws.rs.*;
@@ -21,6 +28,8 @@ import java.util.UUID;
 @Timed(name = "ApplicationTimer", description = "A measure of each request.", unit = MetricUnits.MILLISECONDS)
 @Traced
 public class ApplicationResource {
+    @Inject
+    public ReceivedResult receivedResult;
 
     @POST
     public ApplicationEntity createApplication(CreateApplicationDTO applicationDTO)
@@ -52,6 +61,7 @@ public class ApplicationResource {
 
         application.persistAndFlush();
 
+        receivedResult.sendMessage(resultEntity);
         return resultEntity;
     }
 

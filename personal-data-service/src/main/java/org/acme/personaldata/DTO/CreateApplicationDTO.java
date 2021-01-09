@@ -1,6 +1,7 @@
-package org.acme.personaldata;
+package org.acme.personaldata.DTO;
 
 import io.quarkus.runtime.annotations.RegisterForReflection;
+import org.acme.personaldata.Entity.ApplicationEntity;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;

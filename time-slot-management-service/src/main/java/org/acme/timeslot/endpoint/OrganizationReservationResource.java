@@ -1,10 +1,12 @@
 package org.acme.timeslot.endpoint;
 
+import io.smallrye.common.constraint.NotNull;
 import org.acme.timeslot.dto.ReservationDTO;
 import org.acme.timeslot.entity.Organization;
 import org.acme.timeslot.entity.Reservation;
 import org.acme.timeslot.exception.CannotCreateReservation;
 import org.acme.timeslot.exception.CannotListReservation;
+import org.acme.timeslot.service.ReservationEvent;
 import org.acme.timeslot.service.ReservationService;
 import org.eclipse.microprofile.opentracing.Traced;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
@@ -29,6 +31,9 @@ public class OrganizationReservationResource {
     @Inject
     ReservationService reservationService;
 
+    @Inject
+    ReservationEvent reservationEvent;
+
     @POST
     public Reservation createReservation(@PathParam("organizationId") Long organizationId, ReservationDTO applicationDTO) throws CannotCreateReservation {
         Organization organization = Organization.findById(organizationId);
@@ -37,21 +42,24 @@ public class OrganizationReservationResource {
         Reservation reservation = applicationDTO.createEntity(organization);
         reservationService.validateTerm(reservation);
         reservation.persistAndFlush();
+
+        reservationEvent.creationMessage(reservation);
         return reservation;
     }
 
     @GET
     @Path("/list-free")
     public List<Reservation> listFreeSlots(
-            @PathParam("organizationId") Long organizationId,
+            @NotNull @PathParam("organizationId") Long organizationId,
             @QueryParam("fromTimestamp") Long from,
             @QueryParam("tillTimestamp") Long till
     ) throws CannotListReservation {
+
         Organization organization = Organization.findById(organizationId);
         if (organization == null) return null;
 
         if (from != null && till != null) {
-            reservationService.getFreeTermsForOrganization(organization, new Timestamp(from).toLocalDateTime().toLocalDate(), new Timestamp(till).toLocalDateTime().toLocalDate());
+            return reservationService.getFreeTermsForOrganization(organization, new Timestamp(from).toLocalDateTime().toLocalDate(), new Timestamp(till).toLocalDateTime().toLocalDate());
         } else if (from == null && till == null) {
             return reservationService.getFreeTermsForOrganization(organization, LocalDate.now(), LocalDate.now());
         }
@@ -121,6 +129,9 @@ public class OrganizationReservationResource {
         if (null == reservation || !reservation.organization.equals(organization))
             return false;
 
-        return Reservation.deleteById(reservationId);
+
+        boolean isDeleted = Reservation.deleteById(reservationId);
+        reservationEvent.deletionMessage(reservation);
+        return isDeleted;
     }
 }

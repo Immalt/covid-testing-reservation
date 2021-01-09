@@ -9,4 +9,4 @@ scrape_configs:
       - targets: ['localhost:9090']
   - job_name: 'example-project'
     static_configs:
-      - targets: ['time-slots:8080', 'personal-data:8080']
+      - targets: ['time-slots:8080', 'personal-data:8080', 'mailing-service:8080']

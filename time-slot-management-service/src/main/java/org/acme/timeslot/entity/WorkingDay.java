@@ -35,10 +35,10 @@ public class WorkingDay extends PanacheEntity {
     public DayOfWeek day;
 
     @Column(nullable = false, name = "working_from")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
     public LocalTime workingFrom;
 
     @Column(nullable = false, name = "working_till")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
     public LocalTime workingTill;
 }

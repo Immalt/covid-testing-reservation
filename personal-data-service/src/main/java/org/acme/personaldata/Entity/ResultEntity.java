@@ -1,8 +1,10 @@
-package org.acme.personaldata;
+package org.acme.personaldata.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import io.quarkus.runtime.annotations.RegisterForReflection;
+import org.acme.personaldata.Enum.ResultValuesEnum;
+import org.acme.personaldata.Enum.TestTypeEnum;
 
 import javax.persistence.*;
 

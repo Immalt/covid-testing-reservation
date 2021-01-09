@@ -16,23 +16,11 @@ import java.time.format.DateTimeFormatter;
 public class RegisterCustomModuleCustomizer implements ObjectMapperCustomizer {
     public void customize(ObjectMapper mapper) {
         JavaTimeModule timeModule = new JavaTimeModule();
-
-//        timeModule.addDeserializer(LocalDate.class,
-//                new LocalDateDeserializer(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-//
         timeModule.addDeserializer(LocalDateTime.class,
-                new LocalDateTimeDeserializer(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm")));
-//
-//        timeModule.addSerializer(LocalDate.class,
-//                new LocalDateSerializer(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-
+                new LocalDateTimeDeserializer(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
         timeModule.addSerializer(LocalDateTime.class,
-                new LocalDateTimeSerializer(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm")));
+                new LocalDateTimeSerializer(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
 
         mapper.registerModule(timeModule);
-//        mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
-//                .configure(SerializationFeature.WRITE_DATE_KEYS_AS_TIMESTAMPS, false);
-//        mapper.enable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-//        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 }
