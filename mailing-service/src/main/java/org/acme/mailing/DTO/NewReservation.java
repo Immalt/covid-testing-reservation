@@ -1,11 +1,5 @@
 package org.acme.mailing.DTO;
 
-import io.smallrye.common.constraint.NotNull;
-
-import java.time.LocalDateTime;
-import java.util.UUID;
-
-
 public class NewReservation extends Reservation {
     public String cancellationLink;
 

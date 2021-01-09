@@ -5,7 +5,6 @@ import io.quarkus.qute.api.ResourcePath;
 import org.acme.mailing.Enum.EmailType;
 import org.acme.mailing.Exception.UnknownEmailType;
 
-import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
@@ -15,7 +14,6 @@ public class TemplateFactory {
 
     @ResourcePath("Reservation/CancelReservation")
     MailTemplate canceled;
-
 
     @ResourcePath("Result/Result")
     MailTemplate results;

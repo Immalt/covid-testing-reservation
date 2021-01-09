@@ -10,19 +10,15 @@ import org.acme.timeslot.entity.Organization;
 import org.acme.timeslot.entity.WorkingDay;
 import org.acme.timeslot.enums.TimeUnit;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import javax.enterprise.inject.Stereotype;
 import javax.transaction.Transactional;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
 
 @QuarkusTest
 @Transactional

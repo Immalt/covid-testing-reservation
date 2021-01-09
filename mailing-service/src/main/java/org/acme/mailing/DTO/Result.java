@@ -1,8 +1,8 @@
 package org.acme.mailing.DTO;
 
-import javax.validation.constraints.NotNull;
 import org.acme.mailing.Enum.TestResult;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 public class Result extends EmailData {

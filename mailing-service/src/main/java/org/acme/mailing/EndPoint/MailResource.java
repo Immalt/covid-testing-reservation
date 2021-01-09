@@ -1,7 +1,9 @@
 package org.acme.mailing.EndPoint;
 
 import io.smallrye.common.constraint.NotNull;
-import org.acme.mailing.DTO.*;
+import org.acme.mailing.DTO.NewReservation;
+import org.acme.mailing.DTO.Reservation;
+import org.acme.mailing.DTO.Result;
 import org.acme.mailing.Enum.EmailType;
 import org.acme.mailing.Enum.LinkType;
 import org.acme.mailing.Exception.UnknownEmailType;

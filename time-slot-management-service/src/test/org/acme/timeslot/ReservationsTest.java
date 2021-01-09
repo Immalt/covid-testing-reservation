@@ -4,8 +4,6 @@ import io.quarkus.test.common.QuarkusTestResource;
 import io.quarkus.test.h2.H2DatabaseTestResource;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.http.ContentType;
-import io.restassured.response.ValidatableResponse;
-import io.vertx.core.json.JsonObject;
 import org.acme.timeslot.entity.Organization;
 import org.acme.timeslot.entity.Reservation;
 import org.acme.timeslot.entity.WorkingDay;
@@ -20,7 +18,6 @@ import java.util.UUID;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
 
 @QuarkusTest
 @Transactional

@@ -1,21 +1,16 @@
 package org.acme.timeslot.endpoint;
 
-import org.acme.timeslot.dto.ReservationDTO;
-import org.acme.timeslot.entity.Organization;
 import org.acme.timeslot.entity.Reservation;
-import org.acme.timeslot.exception.CannotListReservation;
-import org.acme.timeslot.service.ReservationService;
 import org.eclipse.microprofile.opentracing.Traced;
-import org.jboss.resteasy.annotations.jaxrs.PathParam;
 import org.jboss.resteasy.annotations.jaxrs.QueryParam;
 
-import javax.inject.Inject;
 import javax.transaction.Transactional;
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
 

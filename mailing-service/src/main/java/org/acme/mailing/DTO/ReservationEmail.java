@@ -1,7 +1,8 @@
 package org.acme.mailing.DTO;
 
-import javax.validation.constraints.NotNull;
 import org.acme.mailing.Enum.EmailType;
+
+import javax.validation.constraints.NotNull;
 
 public class ReservationEmail {
     @NotNull

@@ -1,7 +1,5 @@
 package org.acme.timeslot.endpoint;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
-import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import org.acme.timeslot.dto.OrganizationDTO;
 import org.acme.timeslot.entity.Organization;
 import org.eclipse.microprofile.opentracing.Traced;
