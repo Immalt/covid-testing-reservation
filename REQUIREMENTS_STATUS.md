@@ -1,28 +1,28 @@
 - For the implementation, try to keep with the technology stack presented during the lecture Quarkus, Docker/Podman, etc... All the following points will be covered during the block lectures:
     - ✔
 - (optional) The project has to be deployed with Docker/Podman;
-    - ✔ using `docker-compose`
+    - ✔ (using `docker-compose`)
 - (optional) The project can be deployed on Kubernetes/Minikube or Openshift/CRC;
     - ❌
 - Have the API design & contract available in the project documentation or integrated in the Quarkus project (e.g., using https://swagger.io - https://quarkus.io/guides/openapi-swaggerui)
-    - ✔ Swagger on `/swagger-ui`
+    - ✔ (Swagger on `/swagger-ui`)
 - Have some monitoring part for the services collecting metrics about usage (https://quarkus.io/guides/microprofile-metrics);
-    - ✔ Metrics on `/metrics`
+    - ✔ (Metrics on `/metrics`)
 - Have at least one service that can show self-healing capabilities (https://quarkus.io/guides/microprofile-health);
-    - ✔ Health monitoring on `/health`, health check in `docker-compose.yaml`
+    - ✔ (Health monitoring on `/health`, health check in `docker-compose.yaml`)
 - All services have some meaningful tests running (https://quarkus.io/guides/getting-started-testing);
-    - ❌ (missing for `mailing-service`)
-- Have some simple database support for at least one service (https://quarkus.io/guides/hibernate-orm-panache);
-    - ✔ `personal-data-service` and `time-slot-management-service`
-- Process monitoring data and visualization with Prometheus + Grafana (https://quarkus.io/guides/microprofile-metrics);
     - ✔
+- Have some simple database support for at least one service (https://quarkus.io/guides/hibernate-orm-panache);
+    - ✔ (`personal-data-service` and `time-slot-management-service`)
+- Process monitoring data and visualization with Prometheus + Grafana (https://quarkus.io/guides/microprofile-metrics);
+    - ✔ (Grafana: http://127.0.0.1:3000, name:password = admin:admin)
 - (optional) Use Jaeger for tracing (https://quarkus.io/guides/opentracing);
-    - ❌
+    - ❌ (we were not able to get Jaeger running, but there were attempts)
 - (optional) Use of Kafka for asynchronous messaging (https://quarkus.io/guides/kafka)
     - ✔
 - (optional) Use of authentication for some microservices with JWT (JSON Web Tokens);
     - ❌ (not applicable for this app)
 - Have a scenario that you can run that showcases some reactive properties of the system (those that you implemented): Responsiveness (quick response / always on), resiliency (self-healing service), elasticity (how the system can scale up/down when needed), message-driveness (asynchronous messages with loosely coupled / location-transparent services);
-    - ❌
+    - ✔ (health checks for services in `docker-compose`)
 - (optional) show the usage of native executable with GraalVM, discussing advantages/disadvantages (e.g., what are the performance improvement running the scenario you created);
-    - ❌
+    - ✔ (native build used, performance difference not tested)
