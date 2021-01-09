@@ -51,6 +51,7 @@ public class ApplicationResourceTest {
         json.put("firstName", "Tom");
         json.put("lastName", "Jerry");
         json.put("medicalInsurance", "HealthInstitute");
+        json.put("email", "tom.jerry@gmail.com");
 
         String id = given().contentType(ContentType.JSON)
                 .body(json.toString())
@@ -108,6 +109,7 @@ public class ApplicationResourceTest {
         jsonApplication.put("firstName", "Tom");
         jsonApplication.put("lastName", "Jerry");
         jsonApplication.put("medicalInsurance", "HealthInstitute");
+        jsonApplication.put("email", "tom.jerry@gmail.com");
 
         String applicationId = given().contentType(ContentType.JSON)
                 .body(jsonApplication.toString())
