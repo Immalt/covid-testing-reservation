@@ -3,6 +3,8 @@ package org.acme.mailing.DTO;
 public class NewReservation extends Reservation {
     public String cancellationLink;
 
+    public NewReservation() {}
+
     public NewReservation(Reservation reservation, String cancellationLink)
     {
         term = reservation.term;

@@ -5,7 +5,7 @@
 
 <p>Hello {data.firstName} {data.lastName}</p>
 
-<p>Your test ({data.testType}) result from {data.term.format('YYYY:mm:dd HH:MM:ss')} is {data.testResult}.</p>
+<p>Your test ({data.testType}) result from {time:format(data.term, "dd. MM. yyyy HH:mm:ss")} is {data.testResult}.</p>
 
 {#if data.testResult.toString() == "POSITIVE"}
 <p>Stay isolated and call your doctor for more information.</p>

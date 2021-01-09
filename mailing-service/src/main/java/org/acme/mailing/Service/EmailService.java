@@ -17,8 +17,8 @@ public class EmailService {
     public void sendEmail(EmailType emailType, EmailData emailData) throws UnknownEmailType {
         MailTemplate template = templateFactory.createTemplate(emailType);
 
-        template.data("data", emailData).
-                to(emailData.email)
+        template.data("data", emailData)
+                .to(emailData.email)
                 .subject(emailType.subject())
                 .send()
         ;

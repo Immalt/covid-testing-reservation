@@ -7,8 +7,10 @@ Hello {data.firstName} {data.lastName}
 </p>
 
 <p>
-Your reservation at {data.term.format('YYYY:mm:dd HH:MM:ss')} has been cancelled.
+Your reservation (reservation id - {data.applicationId}) at {time:format(data.term, "dd. MM. yyyy HH:mm:ss")} has been cancelled.
 </p>
+
+<p>Your id: {data.IDCardNumber}</p>
 
 <p>
 Have a great day!
