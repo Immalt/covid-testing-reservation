@@ -8,7 +8,7 @@ These are the services that form the app.
 
 ### Grafana
 
-Available on http://localhost:5000 with name `admin`, password `admin`
+Available on http://localhost:3000 with name `admin`, password `admin`
 
 ### Jaeger
 
