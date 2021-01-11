@@ -32,6 +32,35 @@ services:
       - QUARKUS_JAEGER_REPORTER_LOG_SPANS=true
       - QUARKUS_JAEGER_PROPAGATION=jaeger
 
+  notification-stream-service:
+    restart: on-failure
+    image: covid/notification-stream-service
+    build:
+      dockerfile: src/main/docker/Dockerfile.native
+      context: notification-stream-service
+    ports:
+      - 1004:8080
+    healthcheck:
+      test: [ "CMD-SHELL", "curl --fail http://localhost:8080/health || exit 1" ]
+      timeout: 20s
+      retries: 10
+    environment:
+      - MP_MESSAGING_CONNECTOR_SMALLRYE_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+      - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+      - QUARKUS_KAFKA_HEALTH_ENABLED=true
+      - QUARKUS_LOG_CONSOLE_ENABLE=true
+      - QUARKUS_LOG_CONSOLE_level=DEBUG
+      - QUARKUS_LOG_CONSOLE_color=false
+      - QUARKUS_LOG_CONSOLE_FORMAT="%d{HH:mm:ss} %-5p traceId=%X{traceId}, parentId=%X{parentId}, spanId=%X{spanId}, sampled=%X{sampled} [%c{2.}] (%t) %s%e%n"
+      - QUARKUS_JAEGER_ENDPOINT=http://jaeger:14268/api/traces
+      - QUARKUS_JAEGER_SERVICE_NAME=time-slots-1
+      - QUARKUS_JAEGER_SAMPLER_TYPE=const
+      - QUARKUS_JAEGER_SAMPLER_PARAM=1
+      - QUARKUS_JAEGER_METRICS_ENABLED=true
+      - QUARKUS_JAEGER_LOG_TRACE_CONTEXT=true
+      - QUARKUS_JAEGER_REPORTER_LOG_SPANS=true
+      - QUARKUS_JAEGER_PROPAGATION=jaeger
+
   static-server:
     image: covid/static-server
     build:

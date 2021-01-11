@@ -12,5 +12,6 @@
     <module>time-slot-management-service</module>
     <module>mailing-service</module>
     <module>static-server-service</module>
+    <module>notification-stream-service</module>
   </modules>
 </project>

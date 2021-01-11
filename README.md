@@ -28,6 +28,12 @@ REST API available on http://localhost:1002, Swagger UI on http://localhost:1002
 
 Responsible for sending out email notifications and confirmations.
 
+### Notification stream service
+
+SSE endpoint available on http://localhost:1004/notification/stream
+
+Responsible for SSE stream of result emails (for processing / internal use...)
+
 ### Personal data service
 
 REST API available on http://localhost:1000, Swagger UI on http://localhost:1000/swagger-ui
